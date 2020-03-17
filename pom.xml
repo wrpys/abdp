@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <groupId>com.newland.abdp</groupId>
+    <artifactId>abdp-pom</artifactId>
+    <packaging>pom</packaging>
+    <modelVersion>4.0.0</modelVersion>
+    <version>1.0.0</version>
+    <modules>
+        <module>dependencies/parent-pom</module>
+        <module>dependencies/spring-dependency</module>
+        <module>dependencies/service-dependency</module>
+        <module>dependencies/mysql-dependency</module>
+        <module>dependencies/oracle-dependency</module>
+        <module>plat-common</module>
+        <module>platform-service</module>
+        <module>abdp-service</module>
+    </modules>
+</project>

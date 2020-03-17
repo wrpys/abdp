@@ -1,0 +1,23 @@
+version: '3.1'
+
+services:
+  config-server:
+    image: nynct.registry:9999/config-server:1.0.0-${NYNCT_PROFILE}
+    restart: always
+    hostname: config-server
+    ports:
+      - 8889:8889
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/hosts:/etc/hosts-out
+      - ./logs:/logs
+      - ./config:/config
+      - ./config-repo/:/config-repo/
+    command:
+      - /bin/sh
+      - -c
+      - |
+        ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+        echo Asia/Shanghai > /etc/timezone
+        cat /etc/hosts-out>>/etc/hosts
+        java -jar /config-server.jar --eureka.instance.ip-address=${SERVER_IP}

@@ -1,0 +1,14 @@
+# spring
+spring:
+#  application:
+#    name: commonservice-eureka
+  security:
+    user:
+      name: nynct_service
+      password: NL_7KKWO8
+      # 服务认证
+  jackson:
+    time-zone: GMT+8
+
+logging:
+  path: eureka/

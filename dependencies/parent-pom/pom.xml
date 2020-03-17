@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <groupId>com.newland.abdp</groupId>
+    <artifactId>parent-pom</artifactId>
+    <version>1.0.0</version>
+
+    <packaging>pom</packaging>
+    <modelVersion>4.0.0</modelVersion>
+
+    <properties>
+        <docker-goal>help</docker-goal>
+        <abdp.hub.url>abdp.hub:2375</abdp.hub.url>
+        <abdp.registry.url>abdp.registry:9999</abdp.registry.url>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <targetPath>${project.build.directory}/classes</targetPath>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <targetPath>${project.build.directory}/classes</targetPath>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.4.12</version>
+                <executions>
+                    <!--执行 mvn install 时 自动 执行 mvn docker:build-->
+                    <execution>
+                        <id>build-image</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>${docker-goal}</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- 注意imageName一定要是符合curl 正则[a-z0-9-_.]的，否则构建不会成功 -->
+                    <!-- 详见：https://github.com/spotify/docker-maven-plugin    Invalid repository name ... only [a-z0-9-_.] are allowed-->
+                    <imageName>${abdp.registry.url}/${project.artifactId}:${project.version}-${compiler.profile}
+                    </imageName>
+                    <!-- 指定Dockerfile所在的路径 -->
+                    <!--<dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>-->
+                    <!-- 指定远程docker仓库地址 -->
+                    <dockerHost>http://${abdp.hub.url}</dockerHost>
+                    <!-- 指定远程注册仓库地址 -->
+                    <registryUrl>http://${abdp.registry.url}</registryUrl>
+                    <pushImage>true</pushImage>
+                    <baseImage>abdp.registry:9999/jdk8-font:1.0.0</baseImage>
+                    <!--                    <baseImage>docker.io/java:8-jdk-alpine</baseImage>-->
+                    <!--<entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>-->
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                    <!-- 指定用户名、密码，私有仓库地址从仓库设定的私库地址配置文件获取，该例中从192.168.64.140仓库的daemon.json文件读取 -->
+                    <serverId>abdp-registry</serverId>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <url>http://10.1.4.161:8085/repository/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>http://10.1.4.161:8085/repository/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+</project>

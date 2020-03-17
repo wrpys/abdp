@@ -1,0 +1,18 @@
+version: '3.1'
+
+services:
+  registry:
+    image: registry:latest
+    restart: always
+    environment:
+      - REGISTRY_AUTH=htpasswd
+      - REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm
+      - REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/hosts:/etc/hosts-out
+      - ./config/:/etc/docker/registry/
+      - ./auth/:/auth/
+      - ./:/var/lib/registry
+    ports:
+      - "9999:5000"

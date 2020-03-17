@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>    
+<configuration status="error">  
+	 <properties>  
+        <property name="PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} |-%-1level [%thread] %c [%L] -| %msg%n</property>  
+        <property name="LOG_HOME">logs</property>
+    </properties>  
+    <appenders>  
+        <Console name="CONSOLE" target="SYSTEM_OUT">  
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>  
+            <PatternLayout pattern="${PATTERN}"/>  
+        </Console>  
+        <File name="ERROR" fileName="${LOG_HOME}/error.log">  
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>  
+            <PatternLayout pattern="${PATTERN}"/>  
+        </File>
+        <RollingFile name="runtimeFile" fileName="${LOG_HOME}/active.log" filePattern="${LOG_HOME}/%d{yyyy-MM-dd.HH:mm}.log" append="true">
+            <PatternLayout pattern="${PATTERN}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <!-- 此行以下为自动清理日志的配置 -->
+            <DefaultRolloverStrategy>
+                <Delete basePath="./logs">
+                    <!-- glob 项为需要自动清理日志的pattern -->
+                    <IfFileName glob="*.log"/>
+                    <!-- 1d 表示自动清理掉1天以前的日志文件 -->
+                    <IfLastModified age="24H"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+            <!-- 此行以上为自动清理日志的配置 -->
+        </RollingFile>
+    </appenders>
+    <loggers>
+        <logger name="org.springframework.security" level="DEBUG" additivity="false">
+	        <appender-ref ref="CONSOLE" />
+	        <appender-ref ref="runtimeFile" />
+	    </logger>
+        <root level="info">
+  			<appender-ref ref="CONSOLE" />
+            <AppenderRef ref="ERROR" />
+            <AppenderRef ref="runtimeFile" />
+        </root>  
+    </loggers>  
+</configuration> 
