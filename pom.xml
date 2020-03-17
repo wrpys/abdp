@@ -16,5 +16,6 @@
         <module>plat-common</module>
         <module>platform-service</module>
         <module>abdp-service</module>
+        <module>abdp-sdk</module>
     </modules>
 </project>
