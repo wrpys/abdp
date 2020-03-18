@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   eureka-server2:
-    image: nynct.registry:9999/eureka-server:1.0.0-${NYNCT_PROFILE}
+    image: abdp.registry:9999/eureka-server:1.0.0-${ABDP_PROFILE}
     restart: always
     hostname: eureka-server2
     ports:
@@ -19,4 +19,4 @@ services:
         ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
         echo Asia/Shanghai > /etc/timezone
         cat /etc/hosts-out>>/etc/hosts
-        java -jar eureka-server.jar --spring.profiles.active=eureka-nynct2 --eureka.instance.ip-address=${SERVER_IP}
+        java -jar eureka-server.jar --spring.profiles.active=eureka-server2 --eureka.instance.ip-address=${SERVER_IP}

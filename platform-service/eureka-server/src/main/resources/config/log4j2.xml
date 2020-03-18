@@ -17,35 +17,27 @@
             <PatternLayout pattern="${PATTERN}"/>  
             <SizeBasedTriggeringPolicy size="20MB"/>  
         </RollingFile>         
-        <RollingFile name="runtimeFile" fileName="./logs/active.log" filePattern="./logs/%d{yyyy-MM-dd.HH:mm}.log" append="true">
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS Z}\t%level\t%class\t%line\t%thread\t%msg%n" />
-            <Policies>
-                <TimeBasedTriggeringPolicy />
-            </Policies>
-            <!-- 此行以下为自动清理日志的配置 -->
-            <DefaultRolloverStrategy>
-                <Delete basePath="./logs">
-                    <!-- glob 项为需要自动清理日志的pattern -->
-
-                    <IfFileName glob="*.log"/>
-                    <!-- 1d 表示自动清理掉1天以前的日志文件 -->
-                    <IfLastModified age="24H"/>
-
-                </Delete>
-            </DefaultRolloverStrategy>
-            <!-- 此行以上为自动清理日志的配置 -->
-        </RollingFile>
-    </appenders>
+    </appenders>  
     <loggers>
-        <logger name="org.springframework.security" level="error" additivity="false">
+        <logger name="com.nldc" level="DEBUG" additivity="false">
 	        <appender-ref ref="CONSOLE" />
 	        <appender-ref ref="FILE" />
 	    </logger>
-        <root level="info">
+        <logger name="liquibase" level="DEBUG" additivity="false">
+            <appender-ref ref="CONSOLE" />
+            <appender-ref ref="FILE" />
+        </logger>
+
+        <logger name="org.springframework.security" level="DEBUG" additivity="false">
+	        <appender-ref ref="CONSOLE" />
+	        <appender-ref ref="FILE" />
+	    </logger>
+
+
+        <root level="INFO">
   			<appender-ref ref="CONSOLE" />
 	        <appender-ref ref="FILE" />  
-            <AppenderRef ref="ERROR" />
-            <AppenderRef ref="runtimeFile" />
+            <AppenderRef ref="ERROR" />  
         </root>  
     </loggers>  
 </configuration> 
