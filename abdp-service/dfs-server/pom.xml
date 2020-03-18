@@ -12,11 +12,18 @@
     <artifactId>dfs-server</artifactId>
 
     <properties>
-        <docker-goal>build</docker-goal>
+        <!--<docker-goal>build</docker-goal>-->
     </properties>
 
     <dependencies>
-
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

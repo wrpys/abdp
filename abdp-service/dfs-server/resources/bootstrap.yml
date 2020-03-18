@@ -1,5 +1,5 @@
 server:
-  port: 9201
+  port: 9202
 
 ##eureka配置
 eureka:
@@ -17,7 +17,7 @@ eureka:
 ##service-id及配置中心
 spring:
   application:
-    name: gateway
+    name: dfs-server
   cloud:
     config:
       name: oracle  # 对应 {application} 部分，远程的yml文件
