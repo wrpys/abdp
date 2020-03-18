@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>    
+<configuration status="error">  
+	 <properties>  
+        <property name="PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} |-%-1level [%thread] %c [%L] -| %msg%n</property>  
+        <property name="LOG_HOME">logs</property>
+    </properties>  
+    <appenders>  
+        <Console name="CONSOLE" target="SYSTEM_OUT">  
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>  
+            <PatternLayout pattern="${PATTERN}"/>  
+        </Console>  
+        <File name="ERROR" fileName="${LOG_HOME}/error.log">  
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>  
+            <PatternLayout pattern="${PATTERN}"/>  
+        </File>  
+        <RollingFile name="FILE" fileName="${LOG_HOME}/log.log" filePattern="${LOG_HOME}/$${date:yyyy-MM-dd}/log-%d{yyyy-MM-dd}-%i.log.gz">  
+            <PatternLayout pattern="${PATTERN}"/>  
+            <SizeBasedTriggeringPolicy size="20MB"/>  
+        </RollingFile>         
+    </appenders>  
+    <loggers>
+        <logger name="com.nldc" level="DEBUG" additivity="false">
+	        <appender-ref ref="CONSOLE" />
+	        <appender-ref ref="FILE" />
+	    </logger>
+        <logger name="liquibase" level="DEBUG" additivity="false">
+            <appender-ref ref="CONSOLE" />
+            <appender-ref ref="FILE" />
+        </logger>
+
+        <logger name="org.springframework.security" level="DEBUG" additivity="false">
+	        <appender-ref ref="CONSOLE" />
+	        <appender-ref ref="FILE" />
+	    </logger>
+
+
+        <root level="INFO">
+  			<appender-ref ref="CONSOLE" />
+	        <appender-ref ref="FILE" />  
+            <AppenderRef ref="ERROR" />  
+        </root>  
+    </loggers>  
+</configuration> 
