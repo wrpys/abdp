@@ -12,7 +12,6 @@
     <artifactId>es-boot-starter</artifactId>
 
     <properties>
-        <docker-goal>build</docker-goal>
     </properties>
 
     <dependencies>
