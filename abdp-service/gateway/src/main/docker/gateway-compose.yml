@@ -1,0 +1,22 @@
+version: '3.1'
+
+services:
+  gateway:
+    image: abdp.registry:9999/gateway:1.0.0-${ABDP_PROFILE}
+    restart: always
+    hostname: gateway
+    ports:
+      - 9201:9201
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/hosts:/etc/hosts-out
+      - ./logs:/logs
+      - ./config:/config
+    command:
+      - /bin/sh
+      - -c
+      - |
+        ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+        echo Asia/Shanghai > /etc/timezone
+        cat /etc/hosts-out>>/etc/hosts
+        java -jar /gateway.jar --spring.cloud.config.profile=prod --eureka.instance.ip-address=${SERVER_IP}
