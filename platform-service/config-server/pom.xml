@@ -13,7 +13,7 @@
     <artifactId>config-server</artifactId>
 
     <properties>
-        <docker-goal>build</docker-goal>
+        <!--<docker-goal>build</docker-goal>-->
     </properties>
 
     <dependencies>

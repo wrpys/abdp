@@ -1,4 +1,4 @@
-package com.newland.sri.spring2;
+package com.newland.abdp.config;
 
 import com.newland.spring.platcore.log.Log;
 import com.newland.spring.platcore.log.LogFactory;
@@ -10,11 +10,11 @@ import org.springframework.cloud.config.server.EnableConfigServer;
 @EnableConfigServer
 public class ConfigServerApplication {
 
-	private static Log log = LogFactory.getLogger(ConfigServerApplication.class);
+	private static Log LOG = LogFactory.getLogger(ConfigServerApplication.class);
 
 	public static void main(String[] args) {
 		new SpringApplicationBuilder(ConfigServerApplication.class).run(args);
-		log.info("config server start successfully!");
+		LOG.info("config server start successfully!");
 	}
 
 }
